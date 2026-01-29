@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameConsoleBase.Pages
 {
-    internal class LoginScreen : Screen
+    internal class LoginScreen : MenuScreen
     {
         // בנאי (Constructor) של LoginScreen
         // קורא לבנאי של המחלקה הבסיסית (Screen) ומגדיר את הכותרת של המסך כ-"Login Page"
@@ -55,9 +55,10 @@ namespace GameConsoleBase.Pages
             Console.ReadKey();
             Console.Clear();
 
-            // עובר למסך הבא (GameMenuScreen)
-            Screen next = new GameMenuScreen();
-            next.Show();
+            // עובר למסך הבא
+            AddMenuItem("User Operations", new UserOperationMenu());
+            AddMenuItem("Game menu", new GameMenuScreen());
+
         }
     }
 }

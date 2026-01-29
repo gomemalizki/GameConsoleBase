@@ -43,5 +43,59 @@ namespace GameConsoleBase.DB
             // חיפוש משתמש ברשימה לפי שם משתמש וסיסמה
             return users.FirstOrDefault(u => u.UserName == userName && u.Password == password);
         }
+        public static bool UpdateUserName(string userName, string userNameToUpdate)
+        {
+            if ( string.IsNullOrEmpty(userName)) return false;
+            if ( string.IsNullOrEmpty(userNameToUpdate)) return false;
+
+            var userToUpdate = users.FirstOrDefault(u => u.UserName == userName);
+            if (userToUpdate == null)
+            {
+                return false;
+            }
+            userToUpdate.UserName = userNameToUpdate;
+
+            return true;
+
+        }
+        public static User GetUser(string userName)
+        {
+            return users.FirstOrDefault(u => u.UserName == userName);
+        }
+        private static bool ValidPassword(string? password)
+        {
+            // סיסמה חייבת להיות לפחות 6 תווים, להכיל את הסימן '@', ואינה יכולה להיות ריקה
+            if (password == null || password.Length < 6 || password.Contains("@") || string.IsNullOrEmpty(password))
+            {
+                Console.WriteLine("Password must be at least 6 characters long and contain '@' symbol.");
+                return false;
+            }
+            return true;
+        }
+
+
+        public static bool UpdatePassword(User user, string newPassword)
+        {
+            if (user == null || newPassword == null)
+                return false;
+
+            else
+            {
+                // בדיקה שהסיסמה החדשה שונה מהישנה
+                if ((user.Password != newPassword) && ValidPassword(newPassword))
+                {
+                    user.Password = newPassword;
+                    return true;
+                }
+                else
+                    return false;
+            }
+
+
+            // משתמש לא נמצא
+            return false;
+        }
+
+
     }
 }
